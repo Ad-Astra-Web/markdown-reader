@@ -13,28 +13,28 @@ The Ad Astra Admin Portal employs a **three-tier authorization hierarchy**:
 
 ```mermaid
 flowchart TD
-    A[Admin Login Form: admin-login.php] -->|POST credentials| B[admin/php/testAdminLogin.php]
-    B -->|Verify password_verify| C{Valid & Active?}
-    C -->|No / Disabled| D[Return Error Code 100 / 201 / 202]
-    C -->|Yes| E[Query admin table: approvedById, userRole, fullname]
-    E --> F[Set Core Sessions: allowed-admin, userRole, admin-name]
-    F --> G[Query permissions table: select type where adminId=...]
-    G --> H[Hydrate Sessions: $_SESSION[perm.type] = true]
-    H --> I[Redirect to Admin Dashboard / Requested Route]
+    A["Admin Login Form: admin-login.php"] -->|POST credentials| B["admin/php/testAdminLogin.php"]
+    B -->|Verify password_verify| C{"Valid & Active?"}
+    C -->|No or Disabled| D["Return Error Code 100 / 201 / 202"]
+    C -->|Yes| E["Query admin table: approvedById, userRole, fullname"]
+    E --> F["Set Core Sessions: allowed-admin, userRole, admin-name"]
+    F --> G["Query permissions table: select type where adminId=..."]
+    G --> H["Hydrate Sessions: $_SESSION(perm_type) = true"]
+    H --> I["Redirect to Admin Dashboard or Requested Route"]
     
-    I --> J{Page Access Check: admin/*.php}
-    J -->|!isset allowed-admin| K[header('location:admin-login.php')]
-    J -->|allowed-admin == '1'| L[SUPER-ADMIN GRANTED: Universal Access]
-    J -->|isset $_SESSION[Permission Key]| M[PERMISSION GRANTED: Render Page]
-    J -->|userRole in allowedRoles| N[ROLE GRANTED: Render Department Queue]
-    J -->|No match| O[Redirect / Empty / Exit]
+    I --> J{"Page Access Check: admin/*.php"}
+    J -->|!isset allowed-admin| K["header('location:admin-login.php')"]
+    J -->|allowed-admin == '1'| L["SUPER-ADMIN GRANTED: Universal Access"]
+    J -->|Permission Granted| M["PERMISSION GRANTED: Render Page"]
+    J -->|Role Matches allowedRoles| N["ROLE GRANTED: Render Department Queue"]
+    J -->|No match| O["Redirect / Access Denied"]
     
-    I --> P{Sidebar Rendering: admin/sidebar.php}
-    P -->|Conditional Menu Checks| Q[Echo Menu Links & Dropdown Items]
+    I --> P{"Sidebar Rendering: admin/sidebar.php"}
+    P -->|Conditional Menu Checks| Q["Echo Menu Links and Dropdown Items"]
     
-    I --> R{Backend API Execution: admin/php/*.php}
-    R -->|isset allowed-admin| S[Execute DB Query & Audit Log via approvedById]
-    R -->|!isset allowed-admin| T[Drop / Reject Request]
+    I --> R{"Backend API Execution: admin/php/*.php"}
+    R -->|isset allowed-admin| S["Execute DB Query & Audit Log via approvedById"]
+    R -->|!isset allowed-admin| T["Drop / Reject Request"]
 ```
 
 ---
