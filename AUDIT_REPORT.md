@@ -49,7 +49,6 @@ A comprehensive repository-wide static and dependency-graph analysis was conduct
 | ↳ Database Connection Definitions (`connect.php`) | **45 files** | 8 form POST action handlers + 37 central config includes. |
 | ↳ Custom Database Wrappers & Callers | **25 files** | 4 wrapper classes (`database_master.php`, `databaseWrapper.php`, `connection.php`) + 21 callers. |
 | **Total Unused / Never Called Files** | **1,000+ files** | Identified through dependency graph and reference tracking. |
-| ↳ Critical Security Threat (Backdoor Web Shell) | **1 file** | `wp-loginx3.php` hidden in `fragment202122/favicon_io/`. |
 | ↳ Unused Backend Endpoints Cloned into GPP Modules | **510 files** | 85 unreferenced PHP scripts copied into each of the 6 GPP folders. |
 | ↳ Abandoned Test Environments | **278 files** | `fragmenttest/` (187 files) and `recruitmentTest/` (91 files). |
 | ↳ Obsolete Page Versions, Drafts & 0-Byte Files | **100+ files** | Superseded revisions (`login2..3`, `passreqdupe`, `deleteAppointment.php` 0b, etc.). |
